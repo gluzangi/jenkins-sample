@@ -9,7 +9,7 @@ This Jenkinsfile prototypes a standardized simple CI Pipeline.
 - Docker Engine
 
 
-### How To Run The Playbooks
+### How To Use The Jenkinsfile
 
 - To configure the CI Pipeline login into Jenkins Instance and connect this repo to BlueOcean UI
 
