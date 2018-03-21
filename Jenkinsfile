@@ -12,7 +12,7 @@ pipeline {
             agent { docker 'debian:stable-slim' }
             steps {
                 echo 'Hello, Linux Instance'
-                sh 'sed -h'
+                sh 'sed --help'
             }
         }
     }
