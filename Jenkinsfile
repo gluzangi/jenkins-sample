@@ -5,14 +5,14 @@ pipeline {
             agent { docker 'mariadb:latest' }
             steps {
                 echo 'Hello, MySQL/MariaDB'
-                sh 'mysql --version'
+                sh 'mysql --help'
             }
         }
         stage('DB-Search-and-Replace') {
             agent { docker 'debian:stable-slim' }
             steps {
                 echo 'Hello, Linux Instance'
-                sh 'sed -version'
+                sh 'sed -h'
             }
         }
     }
