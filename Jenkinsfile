@@ -1,18 +1,18 @@
 pipeline {
     agent none
     stages {
-        stage('Build') {
-            agent { docker 'maven:3-alpine' }
+        stage('DB-Dump') {
+            agent { docker 'mariadb:latest' }
             steps {
-                echo 'Hello, Maven'
-                sh 'mvn --version'
+                echo 'Hello, MySQL/MariaDB'
+                sh 'mysql --version'
             }
         }
-        stage('Test') {
-            agent { docker 'openjdk:8-jre' }
+        stage('DB-Search-and-Replace') {
+            agent { docker 'debian:stable-slim' }
             steps {
-                echo 'Hello, JDK'
-                sh 'java -version'
+                echo 'Hello, Linux Instance'
+                sh 'sed -version'
             }
         }
     }
