@@ -1,11 +1,11 @@
 pipeline {
     agent none
     stages {
-        stage('DB-Dump') {
+        stage('DB Export') {
             agent { docker 'mariadb:latest' }
             steps {
-                echo 'Hello, MySQL/MariaDB'
-                sh 'mysql --help'
+                echo 'MySQL/MariaDB - Export'
+                sh 'mysqldump --help'
             }
         }
         stage('DB-Search-and-Replace') {
@@ -13,6 +13,13 @@ pipeline {
             steps {
                 echo 'Hello, Linux Instance'
                 sh 'sed --help'
+            }
+        }
+        stage('DB-Import') {
+            agent { docker 'mariadb:latest' }
+            steps {
+                echo 'MySQL/MariaDB - Import'
+                sh 'mysql --help'
             }
         }
     }
