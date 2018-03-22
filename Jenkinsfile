@@ -28,7 +28,7 @@ pipeline {
                     agent { docker 'debian:stable-slim' }
                     steps {
                         echo 'Git/SonarQube - Code Sniffing '
-                        sh 'ssh --help'
+                        sh 'rsync --help'
                     }
                 }
             }
