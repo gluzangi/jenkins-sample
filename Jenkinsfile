@@ -4,14 +4,16 @@ pipeline {
         stage('DB Export') {
             agent { docker 'mariadb:latest' }
             steps {
-                echo 'MySQL/MariaDB - Export'
+                echo 'MySQL/MariaDB Instance - Data Export'
                 sh 'mysqldump --help'
             }
         }
         stage('DB-Search-and-Replace') {
             agent { docker 'alpine:latest' }
             steps {
-                echo 'Hello, Alpine Instance'
+                echo 'Alpine Instance - Development Tools'
+                sh 'apk add --update alpine-sdk git'
+                sh 'git --help'
                 sh 'sed --help'
             }
         }
@@ -20,14 +22,14 @@ pipeline {
                 stage ('DB Schema Test') {
                     agent { docker 'mariadb:latest' }
                     steps {
-                        echo 'SQL - DB Schema Test'
+                        echo 'MySQL/MariaDB Instance - DB Schema Test'
                         sh 'mysqldump --help'
                     }
                 }
                 stage ('Code Analysis') {
                     agent { docker 'python:alpine' }
                     steps {
-                        echo 'Git/SonarQube - Code Sniffing '
+                        echo 'Alpine Instance - Code Sniffing and Deployment Test'
                         sh 'apk add --update alpine-sdk ansible'
                         sh 'ansible --help'
                     }
@@ -37,7 +39,7 @@ pipeline {
         stage('DB-Import') {
             agent { docker 'mariadb:latest' }
             steps {
-                echo 'MySQL/MariaDB - Import'
+                echo 'MySQL/MariaDB Instance - Data Import'
                 sh 'mysql --help'
             }
         }
