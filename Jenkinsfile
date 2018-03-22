@@ -25,7 +25,7 @@ pipeline {
                     }
                 }
                 stage ('Code Analysis') {
-                    agent { docker 'sonarqube:alpine' }
+                    agent { docker 'sonarqube:latest' }
                     steps {
                         echo 'Sonarqube - Code Sniffing '
                         sh 'sonar-scanner --help'
