@@ -8,8 +8,8 @@ pipeline {
                 sh 'apk add --update alpine-sdk openssh-client git'
                 sh 'mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts'
                 sh 'ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts'
-                /* sh 'git clone git@github.com:freethechildren/wesites-migration-scripts.git' */
-                sh 'git clone gluzangi@https://github.com/freethechildren/wesites-migration-scripts.git'
+                sh 'git clone git@github.com:freethechildren/wesites-migration-scripts.git'
+                /* sh 'git clone https://github.com/freethechildren/wesites-migration-scripts.git' */
                 sh 'ls -al ./'
                 sh 'sed --help'
             }
