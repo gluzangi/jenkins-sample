@@ -28,6 +28,7 @@ pipeline {
                     agent { docker 'python:alpine' }
                     steps {
                         echo 'Git/SonarQube - Code Sniffing '
+                        sh 'apk add --update alpine-sdk'
                         sh 'pip install -U pip ansible'
                     }
                 }
