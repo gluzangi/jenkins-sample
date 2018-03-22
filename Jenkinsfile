@@ -9,10 +9,28 @@ pipeline {
             }
         }
         stage('DB-Search-and-Replace') {
-            agent { docker 'debian:stable-slim' }
+            agent { docker 'alpine:latest' }
             steps {
-                echo 'Hello, Linux Instance'
+                echo 'Hello, Alpine Instance'
                 sh 'sed --help'
+            }
+        }
+        stage('Testing') {
+            parallel {
+                stage ('DB Schema Test') {
+                    agent { docker 'mariadb:latest' }
+                    steps {
+                        echo 'SQL - DB Schema Test'
+                        sh 'mysqldump --help'
+                    }
+                }
+                stage ('Code Analysis') {
+                    agent { docker 'sonarqube:alpine' }
+                    steps {
+                        echo 'Sonarqube - Code Sniffing '
+                        sh 'sonar-scanner --help'
+                    }
+                }
             }
         }
         stage('DB-Import') {
