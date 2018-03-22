@@ -25,7 +25,7 @@ pipeline {
                     }
                 }
                 stage ('Code Analysis') {
-                    agent { docker 'alpine:latest' }
+                    agent { docker 'alpine/git:latest' }
                     steps {
                         echo 'Git/SonarQube - Code Sniffing '
                         sh 'git --help'
