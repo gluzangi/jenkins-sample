@@ -1,6 +1,16 @@
 pipeline {
     agent none
     stages {
+        stage('Content-Ops Prep') {
+            agent { docker 'alpine:latest' }
+            steps {
+                echo 'Alpine Instance - Fetch ContentOps Essentials'
+                sh 'apk add --update alpine-sdk git'
+                sh 'git clone git@github.com:freethechildren/wesites-migration-scripts.git'
+                sh 'ls -al ./'
+                sh 'sed --help'
+            }
+        }
         stage('DB Export') {
             agent { docker 'mariadb:latest' }
             steps {
