@@ -25,10 +25,10 @@ pipeline {
                     }
                 }
                 stage ('Code Analysis') {
-                    agent { docker 'sonarqube:latest' }
+                    agent { docker 'alpine:latest' }
                     steps {
-                        echo 'Sonarqube - Code Sniffing '
-                        sh 'sonar-scanner --help'
+                        echo 'Git/SonarQube - Code Sniffing '
+                        sh 'git --help'
                     }
                 }
             }
