@@ -28,7 +28,7 @@ pipeline {
                     agent { docker 'debian:stable-slim' }
                     steps {
                         echo 'Git/SonarQube - Code Sniffing '
-                        sh 'git --help'
+                        sh 'ssh --help'
                     }
                 }
             }
@@ -39,6 +39,12 @@ pipeline {
                 echo 'MySQL/MariaDB - Import'
                 sh 'mysql --help'
             }
+        }
+    }
+    post {
+        always {
+            echo 'Jenkins Says - Yay, I am done!'
+            deleteDir()
         }
     }
 }
