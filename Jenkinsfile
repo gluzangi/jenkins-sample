@@ -25,7 +25,7 @@ pipeline {
                     }
                 }
                 stage ('Code Analysis') {
-                    agent { docker 'alpine/git:latest' }
+                    agent { docker 'debian:stable-slim' }
                     steps {
                         echo 'Git/SonarQube - Code Sniffing '
                         sh 'git --help'
