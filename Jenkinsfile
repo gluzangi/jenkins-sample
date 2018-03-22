@@ -25,10 +25,10 @@ pipeline {
                     }
                 }
                 stage ('Code Analysis') {
-                    agent { docker 'debian:stable-slim' }
+                    agent { docker 'python:alpine' }
                     steps {
                         echo 'Git/SonarQube - Code Sniffing '
-                        sh 'rsync --help'
+                        sh 'pip install -U pip ansible'
                     }
                 }
             }
