@@ -1,10 +1,12 @@
 pipeline {
     agent none
+/*
     environment { 
-        /* AZ_ACCESS_ID = credentials('my-prefined-secret-text') 
-        AZ_ACCESS_PW = credentials('my-prefined-secret-text') */ 
-        AZ_ACCESS_TOKEN = Eihiehai6aeshahkaxietheebaiCheoc 
+        AZ_ACCESS_ID = credentials('my-prefined-secret-text') 
+        AZ_ACCESS_PW = credentials('my-prefined-secret-text')
+        AZ_ACCESS_TOKEN = Eihiehai6aeshahkaxietheebaiCheoc
     }
+*/
     stages {
         stage('Content-Ops SetUp') {
             agent { docker 'alpine:latest' }
