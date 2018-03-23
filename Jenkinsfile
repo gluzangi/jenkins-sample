@@ -1,16 +1,15 @@
 pipeline {
     agent none
     stages {
-        stage('Content-Ops Prep') {
+        stage('Content-Ops SetUp') {
             agent { docker 'alpine:latest' }
             steps {
                 echo 'Alpine Instance - Fetch ContentOps Essentials'
-                sh 'apk add --update alpine-sdk openssh-client git'
-                sh 'mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts'
-                sh 'ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts'
-                sh 'git clone git@github.com:freethechildren/wesites-migration-scripts.git'
-                /* sh 'git clone https://github.com/freethechildren/wesites-migration-scripts.git' */
+                sh 'apk add --update alpine-sdk'
                 sh 'ls -al ./'
+                sh './db-setup-cnf.sh'
+                sh 'cp ./my.cnf ~/.my.cnf'
+                sh 'ls -al ~/'
                 sh 'sed --help'
             }
         }
@@ -18,7 +17,11 @@ pipeline {
             agent { docker 'mariadb:latest' }
             steps {
                 echo 'MySQL/MariaDB Instance - Data Export'
-                sh 'mysqldump --help'
+                sh 'ls -al ./'
+                sh './db-setup-cnf.sh'
+                sh 'cp ./my.cnf ~/.my.cnf'
+                sh 'ls -al ~/'
+                sh 'mysqldump --print-defaults'
             }
         }
         stage('DB-Search-and-Replace') {
@@ -26,8 +29,10 @@ pipeline {
             steps {
                 echo 'Alpine Instance - Development Tools'
                 sh 'apk add --update alpine-sdk git'
+                sh 'ls -al ./'
                 sh 'git --help'
                 sh 'sed --help'
+                sh 'ls -al ~/'
             }
         }
         stage('Testing') {
@@ -36,7 +41,11 @@ pipeline {
                     agent { docker 'mariadb:latest' }
                     steps {
                         echo 'MySQL/MariaDB Instance - DB Schema Test'
-                        sh 'mysqldump --help'
+                        sh 'ls -al ./'
+                        sh './db-setup-cnf.sh'
+                        sh 'cp ./my.cnf ~/.my.cnf'
+                        sh 'mysqldump --print-defaults'
+                        sh 'ls -al ~/'
                     }
                 }
                 stage ('Code Analysis') {
@@ -44,7 +53,9 @@ pipeline {
                     steps {
                         echo 'Alpine Instance - Code Sniffing and Deployment Test'
                         sh 'apk add --update alpine-sdk ansible'
+                        sh 'ls -al ./'
                         sh 'ansible --help'
+                        sh 'ls -al ~/'
                     }
                 }
             }
@@ -53,7 +64,11 @@ pipeline {
             agent { docker 'mariadb:latest' }
             steps {
                 echo 'MySQL/MariaDB Instance - Data Import'
+                sh 'ls -al ./'
+                sh './db-setup-cnf.sh'
+                sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'mysql --help'
+                sh 'ls -al ~/'
             }
         }
     }
