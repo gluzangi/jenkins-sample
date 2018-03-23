@@ -1,18 +1,32 @@
 pipeline {
     agent none
+    environment { 
+        /* AZ_ACCESS_ID = credentials('my-prefined-secret-text')
+        AZ_ACCESS_PW = credentials('my-prefined-secret-pass') */
+        AZ_ACCESS_TOKEN = 'Iav4ohngooP4seeka6AhHeeNgaij7eeX'
+    }
     stages {
         stage('Content-Ops SetUp') {
-            agent { docker 'alpine:latest' }
+            agent { 
+            docker {
+                image 'alpine:latest'
+                args '-v /tmp:tmp'
+            }
             steps {
                 echo 'Alpine Instance - Fetch ContentOps Essentials'
                 sh 'apk add --update alpine-sdk bash'
                 sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'sed --help'
+                sh 'printenv'
             }
         }
         stage('DB Export') {
-            agent { docker 'mariadb:latest' }
+            agent { 
+            docker {
+                image 'mariadb:latest'
+                args '-v /tmp:tmp' 
+            }
             steps {
                 echo 'MySQL/MariaDB Instance - Data Export'
                 sh 'ls -al ./'
@@ -22,16 +36,22 @@ pipeline {
                 sh 'mysqldump --print-defaults'
                 sh 'mysqldump --databases db_wesites_dev > db-wesites-dev.sql'
                 sh 'ls -al ./'
+                sh 'printenv'
             }
         }
         stage('DB-Search-and-Replace') {
-            agent { docker 'alpine:latest' }
+            agent { 
+            docker {
+                image 'alpine:latest' 
+                args '-v /tmp:tmp' 
+            }
             steps {
                 echo 'Alpine Instance - Development Tools'
                 sh 'apk add --update alpine-sdk bash'
                 sh 'ls -al ./'
                 sh 'sed --help'
                 sh 'ls -al ~/'
+                sh 'printenv'
             }
         }
         stage('Testing') {
@@ -46,6 +66,7 @@ pipeline {
                         sh 'mysqldump --print-defaults'
                         sh 'cat ~/.my.cnf'
                         sh 'ls -al ~/'
+                        sh 'printenv'
                     }
                 }
                 stage ('Code Analysis') {
@@ -56,6 +77,7 @@ pipeline {
                         sh 'ls -al ./'
                         sh 'ansible --help'
                         sh 'ls -al ~/'
+                        sh 'printenv'
                     }
                 }
             }
@@ -69,6 +91,7 @@ pipeline {
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'mysql --print-defaults'
                 sh 'ls -al ~/'
+                sh 'printenv'
             }
         }
     }
