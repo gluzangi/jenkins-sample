@@ -7,7 +7,7 @@ pipeline {
                 echo 'Alpine Instance - Fetch ContentOps Essentials'
                 sh 'apk add --update alpine-sdk'
                 sh 'ls -al ./'
-                sh './db-setup-cnf.sh'
+                sh 'cat ./db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'ls -al ~/'
                 sh 'sed --help'
@@ -18,7 +18,7 @@ pipeline {
             steps {
                 echo 'MySQL/MariaDB Instance - Data Export'
                 sh 'ls -al ./'
-                sh './db-setup-cnf.sh'
+                sh 'cat ./db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'ls -al ~/'
                 sh 'mysqldump --print-defaults'
@@ -42,7 +42,7 @@ pipeline {
                     steps {
                         echo 'MySQL/MariaDB Instance - DB Schema Test'
                         sh 'ls -al ./'
-                        sh './db-setup-cnf.sh'
+                        sh 'cat ./db-setup-cnf.sh'
                         sh 'cp ./my.cnf ~/.my.cnf'
                         sh 'mysqldump --print-defaults'
                         sh 'ls -al ~/'
@@ -65,7 +65,7 @@ pipeline {
             steps {
                 echo 'MySQL/MariaDB Instance - Data Import'
                 sh 'ls -al ./'
-                sh './db-setup-cnf.sh'
+                sh 'cat ./db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'mysql --help'
                 sh 'ls -al ~/'
