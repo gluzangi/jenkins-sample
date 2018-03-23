@@ -5,9 +5,10 @@ pipeline {
             agent { docker 'alpine:latest' }
             steps {
                 echo 'Alpine Instance - Fetch ContentOps Essentials'
-                sh 'apk add --update alpine-sdk'
+                sh 'apk add --update alpine-sdk bash'
                 sh 'ls -al ./'
                 sh 'cat ./db-setup-cnf.sh'
+                sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'ls -al ~/'
                 sh 'sed --help'
@@ -28,7 +29,7 @@ pipeline {
             agent { docker 'alpine:latest' }
             steps {
                 echo 'Alpine Instance - Development Tools'
-                sh 'apk add --update alpine-sdk git'
+                sh 'apk add --update alpine-sdk bash git'
                 sh 'ls -al ./'
                 sh 'git --help'
                 sh 'sed --help'
@@ -52,7 +53,7 @@ pipeline {
                     agent { docker 'python:alpine' }
                     steps {
                         echo 'Alpine Instance - Code Sniffing and Deployment Test'
-                        sh 'apk add --update alpine-sdk ansible'
+                        sh 'apk add --update alpine-sdk bash ansible'
                         sh 'ls -al ./'
                         sh 'ansible --help'
                         sh 'ls -al ~/'
