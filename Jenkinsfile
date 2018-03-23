@@ -1,5 +1,10 @@
 pipeline {
     agent none
+    environment { 
+        /* AZ_ACCESS_ID = credentials('my-prefined-secret-text') 
+        AZ_ACCESS_PW = credentials('my-prefined-secret-text') */ 
+        AZ_ACCESS_TOKEN = Eihiehai6aeshahkaxietheebaiCheoc 
+    }
     stages {
         stage('Content-Ops SetUp') {
             agent { docker 'alpine:latest' }
@@ -9,6 +14,7 @@ pipeline {
                 sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'sed --help'
+                sh 'printenv'
             }
         }
         stage('DB Export') {
@@ -22,6 +28,7 @@ pipeline {
                 sh 'mysqldump --print-defaults'
                 sh 'mysqldump --databases db_wesites_dev > db-wesites-dev.sql'
                 sh 'ls -al ./'
+                sh 'printenv'
             }
         }
         stage('DB-Search-and-Replace') {
@@ -32,6 +39,7 @@ pipeline {
                 sh 'ls -al ./'
                 sh 'sed --help'
                 sh 'ls -al ~/'
+                sh 'printenv'
             }
         }
         stage('Testing') {
