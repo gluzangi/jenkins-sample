@@ -10,6 +10,7 @@ pipeline {
                 sh 'cat ./db-setup-cnf.sh'
                 sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
+                sh 'cat ~/.my.cnf'
                 sh 'ls -al ~/'
                 sh 'sed --help'
             }
@@ -19,9 +20,10 @@ pipeline {
             steps {
                 echo 'MySQL/MariaDB Instance - Data Export'
                 sh 'ls -al ./'
-                sh 'cat ./db-setup-cnf.sh'
+                sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'ls -al ~/'
+                sh 'cat ~/.my.cnf'
                 sh 'mysqldump --print-defaults'
             }
         }
