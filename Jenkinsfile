@@ -20,7 +20,7 @@ pipeline {
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'cat ~/.my.cnf'
                 sh 'mysqldump --print-defaults'
-                sh 'mysqldump > db-wesites-dev.sql'
+                sh 'mysqldump --databases db_wesites_dev > db-wesites-dev.sql'
                 sh 'ls -al ./'
             }
         }
