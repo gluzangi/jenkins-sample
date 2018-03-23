@@ -6,12 +6,8 @@ pipeline {
             steps {
                 echo 'Alpine Instance - Fetch ContentOps Essentials'
                 sh 'apk add --update alpine-sdk bash'
-                sh 'ls -al ./'
-                sh 'cat ./db-setup-cnf.sh'
                 sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
-                sh 'cat ~/.my.cnf'
-                sh 'ls -al ~/'
                 sh 'sed --help'
             }
         }
@@ -19,10 +15,8 @@ pipeline {
             agent { docker 'mariadb:latest' }
             steps {
                 echo 'MySQL/MariaDB Instance - Data Export'
-                sh 'ls -al ./'
                 sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
-                sh 'ls -al ~/'
                 sh 'cat ~/.my.cnf'
                 sh 'mysqldump --print-defaults'
             }
@@ -31,9 +25,8 @@ pipeline {
             agent { docker 'alpine:latest' }
             steps {
                 echo 'Alpine Instance - Development Tools'
-                sh 'apk add --update alpine-sdk bash git'
+                sh 'apk add --update alpine-sdk bash'
                 sh 'ls -al ./'
-                sh 'git --help'
                 sh 'sed --help'
                 sh 'ls -al ~/'
             }
@@ -45,9 +38,10 @@ pipeline {
                     steps {
                         echo 'MySQL/MariaDB Instance - DB Schema Test'
                         sh 'ls -al ./'
-                        sh 'cat ./db-setup-cnf.sh'
+                        sh './db-setup-cnf.sh'
                         sh 'cp ./my.cnf ~/.my.cnf'
                         sh 'mysqldump --print-defaults'
+                        sh 'cat ~/.my.cnf'
                         sh 'ls -al ~/'
                     }
                 }
@@ -68,9 +62,9 @@ pipeline {
             steps {
                 echo 'MySQL/MariaDB Instance - Data Import'
                 sh 'ls -al ./'
-                sh 'cat ./db-setup-cnf.sh'
+                sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
-                sh 'mysql --help'
+                sh 'mysql --print-defaults'
                 sh 'ls -al ~/'
             }
         }
