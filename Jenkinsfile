@@ -15,10 +15,13 @@ pipeline {
             agent { docker 'mariadb:latest' }
             steps {
                 echo 'MySQL/MariaDB Instance - Data Export'
+                sh 'ls -al ./'
                 sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'cat ~/.my.cnf'
                 sh 'mysqldump --print-defaults'
+                sh 'mysqldump > db-wesites-dev.sql'
+                sh 'ls -al ./'
             }
         }
         stage('DB-Search-and-Replace') {
