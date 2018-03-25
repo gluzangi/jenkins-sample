@@ -34,25 +34,18 @@ pipeline {
         stage('Testing') {
             parallel {
                 stage ('DB Schema Test') {
-                    agent { docker 'mariadb:latest' }
                     steps {
                         echo 'MySQL/MariaDB Instance - DB Schema Test'
                         sh 'ls -al ./'
-                        sh './db-setup-cnf.sh'
-                        sh 'cp ./my.cnf ~/.my.cnf'
                         sh 'mysqldump --print-defaults'
-                        sh 'cat ~/.my.cnf'
-                        sh 'ls -al ~/'
                     }
                 }
                 stage ('Code Analysis') {
-                    agent { docker 'python:3' }
                     steps {
                         echo 'Alpine Instance - Code Sniffing and Deployment Test'
-                        sh 'apk add --update alpine-sdk bash ansible'
+                        sh 'apk add --update ansible'
                         sh 'ls -al ./'
                         sh 'ansible --help'
-                        sh 'ls -al ~/'
                     }
                 }
             }
