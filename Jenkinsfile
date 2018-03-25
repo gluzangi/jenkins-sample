@@ -10,8 +10,10 @@ pipeline {
     stages {
         stage('Content-Ops SetUp') {
             agent { 
-		docker 'alpine:latest'
-		args '-v /tmp:/tmp'
+		docker {
+			'alpine:latest'
+			args '-v /tmp:/tmp'
+		}
 	    }
             steps {
                 echo 'Alpine Instance - Fetch ContentOps Essentials'
