@@ -60,8 +60,8 @@ pipeline {
     }
     post {
         always {
-            echo 'Jenkins Says - Yay, I am done!'
             deleteDir()
+            echo 'Jenkins Says - Yay, I am done!'
         }
     }
 }
