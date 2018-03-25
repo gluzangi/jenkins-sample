@@ -54,7 +54,7 @@ pipeline {
             steps {
                 echo 'MySQL/MariaDB Instance - Data Import'
                 sh 'ls -al ./'
-                sh 'mysql --print-defaults'
+                sh 'mysql < db-wesites-dev.sql'
             }
         }
     }
