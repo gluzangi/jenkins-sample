@@ -1,17 +1,14 @@
 pipeline {
-    agent none
-/*
-    environment { 
-        AZ_ACCESS_ID = credentials('my-prefined-secret-text') 
-        AZ_ACCESS_PW = credentials('my-prefined-secret-text')
-        AZ_ACCESS_TOKEN = Eihiehai6aeshahkaxietheebaiCheoc
+    agent {
+        docker {
+            image 'alpine:latest'
+            args '-v /tmp:/tmp'
+        }
     }
-*/
     stages {
         stage('Content-Ops SetUp') {
-            agent { docker 'alpine:latest' }
             steps {
-                echo 'Alpine Instance - Fetch ContentOps Essentials'
+                echo 'Fetch ContentOps Essentials'
                 sh 'apk add --update alpine-sdk bash git'
                 sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
@@ -20,9 +17,9 @@ pipeline {
             }
         }
         stage('DB Export') {
-            agent { docker 'mariadb:latest' }
             steps {
-                echo 'MySQL/MariaDB Instance - Data Export'
+                echo 'MySQL/MariaDB - Data Export'
+                sh 'apk add --update mariadb-client'
                 sh 'ls -al ./'
                 sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
@@ -30,14 +27,11 @@ pipeline {
                 sh 'mysqldump --print-defaults'
                 sh 'mysqldump --databases db_wesites_dev > db-wesites-dev.sql'
                 sh 'ls -al ./'
-                sh 'printenv'
             }
         }
         stage('DB-Search-and-Replace') {
-            agent { docker 'alpine:latest' }
             steps {
-                echo 'Alpine Instance - Development Tools'
-                sh 'apk add --update alpine-sdk bash'
+                echo 'Development Tools - Search and Replace URLs'
                 sh 'ls -al ./'
                 sh 'sed --help'
                 sh 'ls -al ~/'
@@ -71,9 +65,9 @@ pipeline {
             }
         }
         stage('DB-Import') {
-            agent { docker 'mariadb:latest' }
             steps {
                 echo 'MySQL/MariaDB Instance - Data Import'
+                sh 'apk add --update mariadb-client'
                 sh 'ls -al ./'
                 sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
