@@ -6,7 +6,7 @@ pipeline {
         }
     }
     stages {
-        stage('Content-Ops SetUp') {
+        stage('Content-Ops Session SetUp') {
             steps {
                 echo 'ContentOps Tools Preparation'
                 sh 'apk add --update alpine-sdk bash mariadb-client'
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 echo 'Development Tools - Search and Replace URLs'
                 sh 'ls -al ./'
-                sh './db-search-replace.sh db-wesites-dev.sql'
+                /* sh './db-search-replace.sh db-wesites-dev.sql' */
             }
         }
         stage('Testing') {
@@ -61,7 +61,7 @@ pipeline {
     post {
         always {
             echo 'Jenkins Says - Yay, I am done!'
-            /* deleteDir() */
+            deleteDir()
         }
     }
 }
