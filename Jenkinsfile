@@ -14,15 +14,16 @@ pipeline {
 			'alpine:latest'
 			args '-v /tmp:/tmp'
 		}
+	    
+            	steps {
+                	echo 'Alpine Instance - Fetch ContentOps Essentials'
+                	sh 'apk add --update alpine-sdk bash git'
+                	sh './db-setup-cnf.sh'
+                	sh 'cp ./my.cnf ~/.my.cnf'
+                	sh 'sed --help'
+                	sh 'printenv'
+            	}
 	    }
-            steps {
-                echo 'Alpine Instance - Fetch ContentOps Essentials'
-                sh 'apk add --update alpine-sdk bash git'
-                sh './db-setup-cnf.sh'
-                sh 'cp ./my.cnf ~/.my.cnf'
-                sh 'sed --help'
-                sh 'printenv'
-            }
         }
         stage('DB Export') {
             agent { docker 'mariadb:latest' }
