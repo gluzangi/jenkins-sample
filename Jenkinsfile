@@ -9,7 +9,10 @@ pipeline {
 */
     stages {
         stage('Content-Ops SetUp') {
-            agent { docker 'alpine:latest' }
+            agent { 
+		docker 'alpine:latest'
+		args '-v /tmp:/tmp'
+	    }
             steps {
                 echo 'Alpine Instance - Fetch ContentOps Essentials'
                 sh 'apk add --update alpine-sdk bash git'
