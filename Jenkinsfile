@@ -27,7 +27,7 @@ pipeline {
         stage('DB Export') {
             steps {
                 echo 'MySQL/MariaDB - Data Export'
-                sh 'mysqldump --databases db_wesites_dev | pv -W > /tmp/db-wesites-dev.sql'
+                sh 'mysqldump --databases --add-drop-table db_wesites_dev | pv -W > /tmp/db-wesites-dev.sql'
                 sh 'ls -al ./'
             }
             post {
