@@ -42,7 +42,7 @@ pipeline {
                 echo 'Development Tools - Search and Replace URLs'
                 sh 'ls -al ./'
                 sh './db-search-replace.sh db-wesites-dev.sql'
-                sh 'cp db-search-replace.sh /tmp/db-wesites-dev.sql'
+                sh 'cp ./db-wesites-dev.sql /tmp/db-wesites-dev.sql'
             }
             post {
                 always {
