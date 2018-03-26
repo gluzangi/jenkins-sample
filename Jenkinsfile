@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'alpine:latest'
-            args '-v /tmp:/tmp'
+            args '-v $HOME/.jenkins/:/tmp'
         }
     }
     stages {
@@ -16,6 +16,12 @@ pipeline {
                 sh 'mysql --print-defaults'
                 sh 'mysqldump --print-defaults'
             }
+            post {
+                always {
+                    /* deleteDir() */
+                    echo 'Jenkins Says - I am done here yay!'
+                }
+            }
         }
         stage('DB Export') {
             steps {
@@ -23,12 +29,24 @@ pipeline {
                 sh 'mysqldump --databases db_wesites_dev > db-wesites-dev.sql'
                 sh 'ls -al ./'
             }
+            post {
+                always {
+                    /* deleteDir() */
+                    echo 'Jenkins Says - I am done here yay!'
+                }
+            }
         }
         stage('DB-Search-and-Replace') {
             steps {
                 echo 'Development Tools - Search and Replace URLs'
                 sh 'ls -al ./'
-                /* sh './db-search-replace.sh db-wesites-dev.sql' */
+                sh './db-search-replace.sh db-wesites-dev.sql'
+            }
+            post {
+                always {
+                    /* deleteDir() */
+                    echo 'Jenkins Says - I am done here yay!'
+                }
             }
         }
         stage('Testing') {
@@ -54,14 +72,14 @@ pipeline {
             steps {
                 echo 'MySQL/MariaDB Instance - Data Import'
                 sh 'ls -al ./'
-                sh 'mysql < db-wesites-dev.sql'
+                sh 'mysql -v < db-wesites-dev.sql'
             }
         }
     }
     post {
         always {
             deleteDir()
-            echo 'Jenkins Says - Yay, I am done!'
+            echo 'Jenkins Says - I AM DONE & DONER!'
         }
     }
 }
