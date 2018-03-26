@@ -19,8 +19,8 @@ pipeline {
             }
             post {
                 always {
-                    /* deleteDir() */
                     echo 'Jenkins Says - I am done here yay!'
+                    /* deleteDir() */
                 }
             }
         }
@@ -32,22 +32,20 @@ pipeline {
             }
             post {
                 always {
-                    /* deleteDir() */
                     echo 'Jenkins Says - I am done here yay!'
+                    /* deleteDir() */
                 }
             }
         }
         stage('DB-Search-and-Replace') {
             steps {
                 echo 'Development Tools - Search and Replace URLs'
-                sh 'ls -al ./'
                 sh './db-search-replace.sh db-wesites-dev.sql'
-                sh 'cp ./db-wesites-dev.sql /tmp/db-wesites-dev.sql'
             }
             post {
                 always {
-                    /* deleteDir() */
                     echo 'Jenkins Says - I am done here yay!'
+                    /* deleteDir() */
                 }
             }
         }
@@ -73,15 +71,14 @@ pipeline {
         stage('DB-Import') {
             steps {
                 echo 'MySQL/MariaDB Instance - Data Import'
-                sh 'ls -al ./'
                 sh 'mysql -v db_wesites_poc < db-wesites-dev.sql'
             }
         }
     }
     post {
         always {
-            deleteDir()
             echo 'Jenkins Says - I AM DONE & DONER!'
+            deleteDir()
         }
     }
 }
