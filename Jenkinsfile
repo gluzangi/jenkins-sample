@@ -9,10 +9,11 @@ pipeline {
         stage('Content-Ops Session SetUp') {
             steps {
                 echo 'ContentOps Tools Preparation'
-                sh 'apk add --update alpine-sdk bash mariadb-client'
+                sh 'apk add --update alpine-sdk bash mariadb-client pv'
                 sh './db-setup-cnf.sh'
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'sed --help'
+                sh 'pv --help'
                 sh 'mysql --print-defaults'
                 sh 'mysqldump --print-defaults'
             }
@@ -26,7 +27,7 @@ pipeline {
         stage('DB Export') {
             steps {
                 echo 'MySQL/MariaDB - Data Export'
-                sh 'mysqldump --databases db_wesites_dev > db-wesites-dev.sql'
+                sh 'mysqldump --databases db_wesites_dev | pv -W > db-wesites-dev.sql'
                 sh 'ls -al ./'
             }
             post {
@@ -72,7 +73,7 @@ pipeline {
             steps {
                 echo 'MySQL/MariaDB Instance - Data Import'
                 sh 'ls -al ./'
-                sh 'mysql -v < db-wesites-dev.sql'
+                sh 'mysql -v db_wesites_poc < db-wesites-dev.sql'
             }
         }
     }
