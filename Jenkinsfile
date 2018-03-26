@@ -27,7 +27,7 @@ pipeline {
         stage('DB Export') {
             steps {
                 echo 'MySQL/MariaDB - Data Export'
-                sh 'mysqldump --databases --add-drop-table db_wesites_dev | pv -W > /tmp/db-wesites-dev.sql'
+                sh 'mysqldump --databases --add-drop-table db_wesites_dev | pv -W > ./db-wesites-dev.sql'
                 sh 'ls -al ./'
             }
             post {
@@ -41,7 +41,8 @@ pipeline {
             steps {
                 echo 'Development Tools - Search and Replace URLs'
                 sh 'ls -al ./'
-                sh './db-search-replace.sh /tmp/db/db-wesites-dev.sql'
+                sh './db-search-replace.sh db-wesites-dev.sql'
+                sh 'cp db-search-replace.sh /tmp/db-wesites-dev.sql'
             }
             post {
                 always {
@@ -73,7 +74,7 @@ pipeline {
             steps {
                 echo 'MySQL/MariaDB Instance - Data Import'
                 sh 'ls -al ./'
-                sh 'mysql -v db_wesites_poc < /tmp/db-wesites-dev.sql'
+                sh 'mysql -v db_wesites_poc < db-wesites-dev.sql'
             }
         }
     }
