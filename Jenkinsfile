@@ -11,6 +11,7 @@ pipeline {
                 echo 'ContentOps Tools Preparation'
                 sh 'apk add --update alpine-sdk bash mariadb-client pv'
                 sh './db-setup-cnf.sh'
+                sh 'cp ./BaltimoreCyberTrustRoot.crt.pem ~/ca_azure.pem'
                 sh 'cp ./my.cnf ~/.my.cnf'
                 sh 'sed --help'
                 sh 'pv --help'
@@ -27,7 +28,7 @@ pipeline {
         stage('DB Export') {
             steps {
                 echo 'MySQL/MariaDB - Data Export'
-                sh 'mysqldump --databases --add-drop-table db_wesites_dev | pv -W > ./db-wesites-dev.sql'
+                sh 'mysqldump --databases --add-drop-table db_wesites_stg | pv -W > ./db-wesites-stg.sql'
                 sh 'ls -al ./'
             }
             post {
@@ -40,7 +41,7 @@ pipeline {
         stage('DB-Search-and-Replace') {
             steps {
                 echo 'Development Tools - Search and Replace URLs'
-                sh './db-search-replace.sh db-wesites-dev.sql'
+                sh './db-search-replace.sh db-wesites-stg.sql'
             }
             post {
                 always {
@@ -71,7 +72,7 @@ pipeline {
         stage('DB-Import') {
             steps {
                 echo 'MySQL/MariaDB Instance - Data Import'
-                sh 'mysql -v db_wesites_poc < db-wesites-dev.sql'
+                sh 'mysql -v db_wesites < db-wesites-stg.sql'
             }
         }
     }
